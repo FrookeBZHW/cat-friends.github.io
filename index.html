@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Swiper with Progress Bar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./swiper.min.css">
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+      bottom: 40px;
+    }
+    .swiper-pagination-bullet{
+      width: 20px;
+      height: 20px;
+      background-color: #000;
+    }
+    .swiper-pagination-bullet-active{
+      background-color: #c64141;
+    }
+    .progress-bar-container {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 10px;
+      display: none;
+      z-index: 1;
+    }
+    .progress-bar {
+      height: 100%;
+      transition: width linear;
+      background-color: #c64141;
+      width: 0%;
+    }
+
+    .pause-btn {
+      z-index: 2;
+      position: absolute;
+      bottom: 60px;
+      right: 10%;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #c64141;
+    }
+    .pause-btn.paused {
+      background-color: #c64141;
+    }
+  </style>
+</head>
+<body>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c8b6834f1.png" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c86e7c6ff.png" alt="">
+      </div>
+      <div class="swiper-slide">
+        <img src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c92570455.png" alt="">
+      </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar"></div>
+  </div>
+
+  <button class="pause-btn">暂停</button>
+  <!-- Swiper JS -->
+  <script src="./swiper.min.js"></script>
+  <!-- Script -->
+  <script>
+    var delay = 3000; 
+    var progressBar = document.querySelector('.progress-bar');
+    var pauseButton = document.querySelector('.pause-btn');
+    var progressBarContainer = document.querySelector('.progress-bar-container');
+
+    var progressInterval = null;
+    var curProgressNum = 0; // 记录当前滚动条进度
+    var isPaused = false;  // 是否处于暂停态
+    var savedProgress = 0; // 暂停态下当前进度
+
+    var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 30,
+      speed: 600,
+      loop: true,
+      centeredSlides: true,
+      autoplay: {
+        delay: delay,
+        disableOnInteraction: false,
+        pauseOnHover: true // Add this line
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on: {
+        init: function () {
+          startProgressBar();
+        },
+        transitionStart: function () {
+          progressBarContainer.style.display = 'none';
+          if(isPaused){
+            savedProgress = 0;
+          }
+          resetProgressBar();
+
+        },
+        transitionEnd: function () {
+          if(isPaused){
+            resetProgressBar();
+          }else{
+            startProgressBar();
+          }
+        },
+        
+      },
+    });
+
+    // 重置进度条
+    function resetProgressBar() {
+        progressBar.style.width = '0%';
+        clearInterval(progressInterval)
+    }
+
+    // 启动滚动条  
+    function startProgressBar() {
+      progressBarContainer.style.display = 'block';
+        var startTime = Date.now() - (savedProgress * delay / 100);
+
+        function updateProgressBar() {
+          var elapsedTime = Date.now() - startTime;
+          var progress = (elapsedTime / delay) * 100;
+          progressBar.style.width = Math.min(progress, 100) + '%';
+          if (elapsedTime < delay) {
+            progressInterval = setTimeout(()=>updateProgressBar(), 0); 
+          } else {
+            savedProgress = 0;
+            progressBar.style.width = '100%';
+            clearInterval(progressInterval);
+          }
+        }
+        updateProgressBar();
+    }
+
+    if (pauseButton.addEventListener) {
+      pauseButton.addEventListener('click', function () {
+        isPaused = !isPaused;
+        if (isPaused) {
+          swiper.autoplay.stop();
+          pauseButton.innerHTML = '播放';
+          // 进度条暂停
+          savedProgress = parseFloat(progressBar.style.width); // 保存当前进度
+          clearInterval(progressInterval);
+        } else {
+          swiper.autoplay.start();
+          pauseButton.innerHTML = '暂停';
+          // 进度条恢复
+          startProgressBar()
+        }
+      });
+    } else if (pauseButton.attachEvent) {
+      // 兼容IE10
+      pauseButton.attachEvent('onclick', function () {
+        isPaused = !isPaused;
+        if (isPaused) {
+          swiper.autoplay.stop();
+          pauseButton.innerHTML = '播放';
+          // 进度条暂停
+          savedProgress = parseFloat(progressBar.style.width); // 保存当前进度
+          clearInterval(progressInterval);
+        } else {
+          swiper.autoplay.start();
+          pauseButton.innerHTML = '暂停';
+          // 进度条恢复
+          startProgressBar();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
