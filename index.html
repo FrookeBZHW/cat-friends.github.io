@@ -1,233 +1,833 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Swiper with Progress Bar</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
-    />
-    <link rel="stylesheet" href="./swiper.min.css" />
-    <style>
-      html,
-      body {
-        position: relative;
-        height: 100%;
-      }
-      body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color: #000;
-        margin: 0;
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1正式项目</title>
+</head>
+<link rel="stylesheet" href="css/swiper.min.css" type="text/css" />
+<script src=" js/vendor.js"></script>
+<script src="js/jquery1.42.min.js"></script>
+<script src="font/iconfont.js"></script>
+<link rel="stylesheet" href="css/prettify.css" />
+<!-- 滚动条js -->
+<script src="js/prettify.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.scrollbar.js"></script>
+<!-- 引入jQuery -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
+<script src="js/jquery.nicescroll.min.js"></script>
+<style>
+    * {
         padding: 0;
-      }
-      .swiper-container {
+        margin: 0;
+        list-style: none;
+    }
+
+    .tushuo_head {
         width: 100%;
-        height: 100%;
-      }
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        display: -webkit-box;
-        display: -ms-flexbox;
+        height: 100px;
+        background: url(img/nav_bg.png) 100% 100% no-repeat;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        border-top: 5px #004190 solid;
+    }
+
+    .tushuo_head01 {
+        width: 100%;
+        height: 100px;
+        background: #171717;
         display: -webkit-flex;
         display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-between;
         align-items: center;
-      }
-      .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      .swiper-container-horizontal > .swiper-pagination-bullets,
-      .swiper-pagination-custom,
-      .swiper-pagination-fraction {
-        bottom: 40px;
-      }
-      .swiper-pagination-bullet {
-        width: 20px;
-        height: 20px;
-        background-color: #000;
-      }
-      .swiper-pagination-bullet-active {
-        background-color: #c64141;
-      }
-      .progress-bar-container {
-        position: absolute;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 10px;
-        display: none;
-        z-index: 1;
-      }
-      .progress-bar {
-        height: 100%;
-        transition: width linear;
-        background-color: #c64141;
-        width: 0%;
-      }
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 10;
+        position: fixed;
+        top: -100px;
+    }
 
-      .pause-btn {
-        z-index: 2;
-        position: absolute;
-        bottom: 60px;
-        right: 10%;
+    .tushuo_head01_active {
+        animation: top 1s ease-in-out forwards;
+    }
+
+    .tushuo_head01 img {
+        height: 70px;
+    }
+
+    .tushuo_head01 .tushuo_h1_box {
+        width: 50%;
+    }
+
+    .tushuo_head01 .tushuo_h1_box h1 {
+        font-size: 18px;
+        margin-top: 20px;
         color: #fff;
-        cursor: pointer;
-        border: none;
+        float: left;
+    }
+
+    .tushuo_head01 span {
+        font-size: 16px;
+        color: #fff;
+        margin-top: 20px;
+    }
+
+    .tushuo_head a {
+        display: block;
+        color: #fff;
+        font-size: 12px;
+        width: 60px;
+        height: 55px;
+        line-height: 16px;
+        background: url(img/logo_bg1.png) no-repeat;
+        float: right;
+        background-size: 100%;
+        text-align: center;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .tushuo_box01 {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .tushuo_box01::before {
+        content: "";
+        width: 45%;
+        height: 100%;
+        background: url(img/tushuo_l.png) left center no-repeat;
+        background-size: 100% auto;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .tushuo_box01::after {
+        content: "";
+        width: 70%;
+        height: 100%;
+        background: url(img/tusuo_b.png) right bottom no-repeat;
+        background-size: 100% auto;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+
+    .img_box {
+        position: relative;
+        z-index: 3;
+        height: 100vh;
+    }
+
+    .img_box img {
+        height: 50vh;
+        position: absolute;
+        z-index: 40;
+        top: 20vh;
+        left: 10%;
+    }
+
+    .tushuo_txt {
+        position: absolute;
+        width: 50%;
+        overflow: hidden;
+        bottom: 30px;
+        right: 30px;
+    }
+
+    .tushuo_txt h1 {
+        color: #fff;
+        float: right;
+        font-size: 30px;
+        line-height: 50px;
+    }
+
+    .tushuo_txt p {
+        color: #fff;
+        float: right;
+        font-size: 26px;
+        line-height: 40px;
+    }
+
+    .tushuo_txt h2 {
+        color: #fff;
+        float: right;
+        font-size: 18pxpx;
+        font-weight: 400;
+    }
+
+    .tushuo_box02 {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: #2A2A2A url(img/tushuo_bg.png) 100% 100% no-repeat;
+        position: absolute;
+        top: 100vh;
+    }
+
+    .tushuo_box02 ul {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .tushuo_box02 ul li {
+        width: 100%;
+        height: calc(100vh - 300px);
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .margin200 ul li {
+        margin: 100px 0 240px 0;
+    }
+
+    .tushuo_box02 ul li img {
+        height: 100%;
+        width: auto;
+    }
+
+    .tushuo_bottom {
+        width: 100%;
+        height: 200px;
+        background: #171717;
+        position: fixed;
+        bottom: 0;
+        padding: 20px;
+        z-index: 15;
+        bottom: -240px;
+        box-sizing: border-box;
+    }
+
+    .tushuo_bottom_active {
+        animation: bottom 1s ease-in-out forwards;
+    }
+
+    .tushuo_bottom_img {
+        width: 100%;
+        height: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .tushuo_bottom_img li {
+        width: 160px;
+        height: 120px;
+        margin: 0 5px;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .tushuo_bottom_img li img {
+        height: 100%;
+        width: auto;
+    }
+
+    .tushuo_bottom_img_a {
+        border: 2px #fff solid;
+    }
+
+    .tushuo_bottom_p {
+        margin-top: 20px;
+        width: 100%;
+        clear: both;
+        display: -webkit-flex;
+        display: flex;
+        flex-wrap: nowrap;
+        padding: 10px 20px 20px 0;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .tushuo_bottom_p ul li {
+        width: 100%;
+        clear: both;
+        display: -webkit-flex;
+        display: flex;
+        flex-wrap: nowrap;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .tushuo_bottom_p h1 {
+        font-size: 20px;
+        margin: 0 20px 0 0;
+        font-style: italic;
+        float: left;
+        color: #fff;
+        display: block;
+    }
+
+    .tushuo_bottom_p h1 span {
+        color: #FDC689;
+        font-style: italic;
+    }
+
+    .tushuo_bottom_p p {
+        font-size: 18px;
+        float: left;
+        display: block;
+        color: #fff;
+    }
+
+    .top_10 {
+        top: 0;
+    }
+
+    .border_1 {
+        border: 1px #fff solid;
+    }
+
+    .tushuo_bottom_img .swiper-slide-thumb-active {
+        border: 1px #fff solid;
+    }
+
+    .thumbnails .active {
+        border: 1px #fff solid;
+    }
+
+    .thumbnail {
+        whi
+    }
+
+    @keyframes top {
+        from {
+            top: -100px;
+        }
+
+        to {
+            top: 0px;
+        }
+    }
+
+    @keyframes bottom {
+        from {
+            bottom: -240px;
+        }
+
+        to {
+            bottom: 0px;
+        }
+    }
+
+    .anniu {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        z-index: 9999;
+    }
+
+    .left {
         width: 50px;
         height: 50px;
-        border-radius: 50%;
-        background-color: #c64141;
-      }
-      .pause-btn.paused {
-        background-color: #c64141;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img
-            src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c8b6834f1.png"
-            alt=""
-          />
+        background: #fff;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        text-align: center;
+    }
+
+    .right {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        text-align: center;
+    }
+
+    .right_tt {
+        width: 50px;
+        height: 50px;
+        background: #fff;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        text-align: center;
+        display: none;
+        z-index: 9999;
+    }
+
+    /* 滚动条 */
+    .scrollbar-inner>.scroll-element,
+    .scrollbar-inner>.scroll-element div {
+        border: none;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        z-index: 10;
+    }
+
+    .scrollbar-inner>.scroll-element div {
+        display: block;
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-x {
+        bottom: 2px;
+        height: 8px;
+        left: 0;
+        width: 100%;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-y {
+        display: none;
+        height: 100%;
+        right: 2px;
+        top: 0;
+        width: 8px;
+    }
+
+    .scrollbar-inner>.scroll-element .scroll-element_outer {
+        overflow: hidden;
+    }
+
+    .scrollbar-inner>.scroll-element .scroll-element_outer,
+    .scrollbar-inner>.scroll-element .scroll-element_track,
+    .scrollbar-inner>.scroll-element .scroll-bar {
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+
+    .scrollbar-inner>.scroll-element .scroll-element_track,
+    .scrollbar-inner>.scroll-element .scroll-bar {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+        filter: alpha(opacity=40);
+        opacity: 0.4;
+    }
+
+    .scrollbar-inner>.scroll-element .scroll-element_track {
+        background-color: #e0e0e0;
+    }
+
+    .scrollbar-inner>.scroll-element .scroll-bar {
+        background-color: #c2c2c2;
+    }
+
+    .scrollbar-inner>.scroll-element:hover .scroll-bar {
+        background-color: #919191;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-draggable .scroll-bar {
+        background-color: #919191;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-x.scroll-scrolly_visible .scroll-element_track {
+        left: -12px;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-y.scroll-scrollx_visible .scroll-element_track {
+        top: -12px;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-x.scroll-scrolly_visible .scroll-element_size {
+        left: -12px;
+    }
+
+    .scrollbar-inner>.scroll-element.scroll-y.scroll-scrollx_visible .scroll-element_size {
+        top: -12px;
+    }
+</style>
+
+<body>
+
+    <div class="tushuo_head01">
+        <img src="img/tushuo.svg" />
+        <div class="tushuo_h1_box">
+            <h1>长春大学第十四届“挑战杯”大学生创业计划竞赛</h1>
         </div>
-        <div class="swiper-slide">
-          <img
-            src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c86e7c6ff.png"
-            alt=""
-          />
+        <span class="iconfont" id="zhankai">展开</span>
+    </div>
+    <div style="position:relative; width:100%; height:100vh;" class="slideTxtBox1">
+        <div class="anniu">anniu</div>
+        <div class="tushuo_box01" style=" background:url(img/tushuguan.png) no-repeat; background-size:cover;">
+            <div class="tushuo_head"><a href=";">返回</br>列表</a></div>
+            <div class="img_box">
+                <img src="img/logots.svg" />
+                <div class="tushuo_txt">
+                    <h1>长春大学第十四届“挑战杯”大学生创业计划竞赛</h1>
+                    <p>长春大学第十四届“挑战杯”大学生创业计划竞赛长春大第十四大学生创业计划竞赛</p>
+                    <h2>发布时间：2024-11-19</h2>
+                </div>
+            </div>
         </div>
-        <div class="swiper-slide">
-          <img
-            src="https://www.ruc.edu.cn/Uploads/Zgrmdxzw/Picture/2024/11/04/s6728c92570455.png"
-            alt=""
-          />
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
     </div>
 
-    <div class="progress-bar-container">
-      <div class="progress-bar"></div>
+    <div class="tushuo_box02 bd swiper-content swiper-container mySwiper2 margin200 bg">
+        <ul class="swiper-wrapper disabled-mouse-events">
+            <li class="swiper-slide"><img src="img/img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+            <li class="swiper-slide"><img src="img/ggfw_img.png" data-src="img/ggfw_img.png" class="swiper-lazy" alt="ggfw_img.png" /></li>
+            <li class="swiper-slide"><img src="img/img0001.png" data-src="img/img0001.png" class="swiper-lazy" alt="img0001.png" /></li>
+        </ul>
+        <div class="swiper-button-next right"></div>
+        <div class="swiper-button-prev left"></div>
+        <div class="right_tt">you</div>
+    </div>
+    <div class="tushuo_bottom">
+        <ul class="tushuo_bottom_img thumbnails scrollbar-inner">
+            <li class="thumbnail active"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+            <li class="thumbnail"><img src="img/ggfw_img.png" /></li>
+            <li class="thumbnail"><img src="img/img0001.png" /></li>
+        </ul>
+        <div class="tushuo_bottom_p bd swiper-container mySwiper2 words">
+            <ul class="swiper-wrapper disabled-mouse-events">
+                <li class="swiper-slide">
+                    <h1><span>1</span>/14</h1>
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+                <li class="swiper-slide">
+                    <p>1长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届“挑战杯”大学生创业计划竞赛长春大学第十四届
+                    </p>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <button class="pause-btn">暂停</button>
-    <!-- Swiper JS -->
-    <script src="./swiper.min.js"></script>
-    <!-- Script -->
-    <script>
-      var delay = 3000;
-      var progressBar = document.querySelector(".progress-bar");
-      var pauseButton = document.querySelector(".pause-btn");
-      var progressBarContainer = document.querySelector(
-        ".progress-bar-container"
-      );
+    </div>
 
-      var progressInterval = null;
-      var curProgressNum = 0; // 记录当前滚动条进度
-      var isPaused = false; // 是否处于暂停态
-      var savedProgress = 0; // 暂停态下当前进度
+    </div>
+    </div>
+</body>
 
-      var swiper = new Swiper(".swiper-container", {
-        spaceBetween: 30,
-        speed: 600,
-        loop: true,
-        centeredSlides: true,
-        autoplay: 3000,
-        autoplayDisableOnInteraction: false,
-        pagination: ".swiper-pagination",
-        paginationClickable: true,
-        nextButton: ".swiper-button-next",
-        prevButton: ".swiper-button-prev",
-          init: function () {
-            startProgressBar();
-          },
-          onTransitionStart: function () {
-            console.log('start');
-            progressBarContainer.style.display = "none";
-            if (isPaused) {
-              savedProgress = 0;
-            }
-            resetProgressBar();
-          },
-          onTransitionEnd: function () {
-            console.log('end');
-
-            if (isPaused) {
-              resetProgressBar();
-            } else {
-              startProgressBar();
-            }
-          },
-      });
-
-      // 重置进度条
-      function resetProgressBar() {
-        progressBar.style.width = "0%";
-        clearInterval(progressInterval);
-      }
-
-      // 启动滚动条
-      function startProgressBar() {
-        progressBarContainer.style.display = "block";
-        var startTime = Date.now() - (savedProgress * delay) / 100;
-
-        function updateProgressBar() {
-          var elapsedTime = Date.now() - startTime;
-          var progress = (elapsedTime / delay) * 100;
-          progressBar.style.width = Math.min(progress, 100) + "%";
-          if (elapsedTime < delay) {
-            progressInterval = setTimeout(updateProgressBar, 0);
-          } else {
-            savedProgress = 0;
-            progressBar.style.width = "100%";
-            clearInterval(progressInterval);
-          }
-        }
-        updateProgressBar();
-      }
-
-      // 兼容IE10
-      function addEvent(element, event, handler) {
-        if (element.addEventListener) {
-          element.addEventListener(event, handler, false);
-        } else if (element.attachEvent) {
-          element.attachEvent("on" + event, handler);
-        }
-      }
-
-      addEvent(pauseButton, "click", function () {
-        isPaused = !isPaused;
-        if (isPaused) {
-          debugger;
-          swiper.stopAutoplay();
-          pauseButton.innerHTML = "播放";
-          // 进度条暂停
-          savedProgress = parseFloat(progressBar.style.width); // 保存当前进度
-          clearInterval(progressInterval);
-        } else {
-          swiper.startAutoplay();
-          pauseButton.innerHTML = "暂停";
-          // 进度条恢复
-          startProgressBar();
-        }
-      });
-    </script>
-  </body>
 </html>
+<script src="js/swiper.min.js"></script>
+<script>
+    $(function () {
+        var nav = $('.tushuo_head01'),
+            nav1 = $('.tushuo_bottom'),
+            doc = $(document),
+            win = $(window);
+
+        win.scroll(function () {
+
+            if (doc.scrollTop() > 80) {
+                nav.addClass('tushuo_head01_active'); nav1.addClass('tushuo_bottom_active');
+            } else {
+                nav.removeClass('tushuo_head01_active'); nav1.removeClass('tushuo_bottom_active');
+            }
+
+
+        });
+        win.scroll();
+    })
+    $("#zhankai").click(function () {
+        $(".tushuo_head01").removeClass('tushuo_head01_active');
+        $(".tushuo_bottom").removeClass('tushuo_bottom_active');
+        $(".tushuo_box02 ul li").css("height", "100vh");
+        $(".tushuo_box02").removeClass('margin200');
+        $(".right_tt").show();
+    })
+    $(".right_tt").click(function () {
+        $(".tushuo_head01").addClass('tushuo_head01_active');
+        $(".tushuo_bottom").addClass('tushuo_bottom_active');
+        $(".tushuo_box02 ul li").css("height", "calc(100vh - 300px)");
+        $(".tushuo_box02").addClass('margin200');
+        $(".right_tt").hide();
+    })
+    $(".anniu").click(function () {
+        $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+    });
+    $(document).ready(function () {
+        var thumbnailsScrollX = 0; // 缩略图的滚动距离
+        var Swiper1 = new Swiper('.bg', {
+            loop: true,
+            preloadImages: false,
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            paginationClickable: true,
+            spaceBetween: 30,
+        });
+        var Swiper2 = new Swiper('.words', {
+            loop: true,
+            spaceBetween: 30,
+        });
+        // 获取真实的当前active Index 排除虚拟图影响
+        function getRealIndex() {
+            var activeIndex = Swiper1.activeIndex;
+            var realIndex = 0;
+            var realBannerLength = $('.thumbnails').find('.thumbnail').length; // 减去前后模拟的图 真实的图片数量 真实的最后一个索引
+            // 在循环模式下，需要计算实际的索引
+            // activeIndex：0 1 2 3 4
+            // middle Index:3 1 2 3 1
+            // eq Index    :2 0 1 2 0
+            var beforeIndex = 0; // 最前面的1张虚拟图
+            var EndIndex = realBannerLength + 1; // 最后1张虚拟图
+            console.log('Swiper1.activeIndex---', Swiper1.activeIndex);
+            if (activeIndex === beforeIndex) {
+                realIndex = realBannerLength;
+            } else if (activeIndex === EndIndex) {
+                realIndex = 1;
+            } else {
+                realIndex = activeIndex;
+            }
+            return realIndex;
+        }
+
+        // 缩略图点击事件
+        $('.thumbnail').click(function () {
+            var index = $(this).index(); // 缩略图的索引 0 开始
+            console.log('缩略图索引--', index);
+            Swiper1.slideTo(index + 1);
+            Swiper2.slideTo(index + 1);
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+
+        // 主轮播图切换事件
+        Swiper1.on('slideChangeStart', function () {
+            // 获取当前活动的幻灯片索引
+            var activeIndex = Swiper1.activeIndex;
+            console.log('真实的图片索引--', getRealIndex());
+            Swiper2.slideTo(activeIndex);
+            // eq 从0 开始计算
+            const curThumbnail = $('.thumbnail').eq(getRealIndex() - 1);
+            curThumbnail.addClass('active').siblings().removeClass('active');
+            // 滚动到可视区域
+            scrollToVisible($('.thumbnails'), curThumbnail)
+        });
+        // 切换结束 懒加载
+        Swiper1.on('slideChangeEnd', function () {
+            // lazyLoadImages('banner');
+        })
+
+        // 手动实现懒加载
+        function lazyLoadImages(type) {
+            if (type === 'banner') {
+                // 遍历所有的 swiper-slide
+                $('.swiper-slide').each(function () {
+                    var $slide = $(this);
+                    var $img = $slide.find('img.swiper-lazy');
+
+                    // 判断图片是否存在并且需要加载
+                    if ($img.length > 0 && $img.attr('data-src') && isElementInViewport($img[0])) {
+                        $img.attr('src', $img.attr('data-src'));
+                        $img.removeAttr('data-src');
+                        $img.removeClass('swiper-lazy');
+                    }
+                });
+            } else {
+                $('.thumbnail').each(function () {
+                    var $slide = $(this);
+                    var $img = $slide.find('img');
+
+                    // 判断图片是否存在并且需要加载
+                    if ($img.length > 0 && $img.attr('data-src') && isElementInViewport($img[0])) {
+                        $img.attr('src', $img.attr('data-src'));
+                        $img.removeAttr('data-src');
+                    }
+                });
+            }
+        }
+
+
+        // 判断元素是否在视口内 兼容IE10
+        function isElementInViewport(el) {
+            var rect = el.getBoundingClientRect();
+            return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+        }
+
+        $('.swiper-button-next').on('click', function () {
+            Swiper1.slideNext();
+        });
+        $('.swiper-button-prev').on('click', function () {
+            Swiper1.slidePrev();
+        });
+
+        function initImagesFromList() {
+            return;
+            // 缩略图懒加载
+            var images = [
+                { src: 'img/img0001.png', alt: 'Image 1' },
+                { src: 'img/ggfw_img.png', alt: 'Image 2' },
+                // 更多图片
+            ];
+            function fillImagesArray(images, targetLength) {
+                // 保证数组长度达到 targetLength
+                while (images.length < targetLength) {
+                    // 向 images 数组中添加元素，直到达到目标长度
+                    images.push(
+                        { src: 'img/img0001.png', ['data-src']: 'img/img0001.png', alt: 'img0001.png' },
+                        { src: 'img/ggfw_img.png', 'data-src': 'img/ggfw_img.png', alt: 'ggfw_img.png' }
+                    );
+                }
+                // 如果最终长度超过目标长度，则截取到目标长度
+                images.length = targetLength;
+            }
+            fillImagesArray(images, 30);
+            const $bannerList = $('.swiper-wrapper');
+            const $list = $('.thumbnails');
+            // 动态生成 HTML 结构
+            images.forEach((image) => {
+                const $bannerLi = $('<li class="swiper-slide"></li>');
+                const $li = $('<li class="mh thumbnail"></li>');
+                const $bannerImg = $('<img class="swiper-lazy" />')
+                    .attr('data-src', image.src) // 懒加载用 data-src
+                    .attr('alt', image.alt) // 图片描述
+                const $img = $('<img />')
+                    .attr('data-src', image.src) // 懒加载用 data-src
+                    .attr('alt', image.alt) // 图片描述
+                // .attr('src', 'placeholder.png'); // 占位符
+                $bannerLi.append($bannerImg);
+                $bannerList.append($bannerLi);
+                $li.append($img);
+                $list.append($li);
+            });
+
+            // lazyLoadImages('thumbnail')
+        }
+
+        // initImagesFromList()
+
+
+
+        $('.scrollbar-inner').scrollbar({
+            "onScroll": function (y, x) {
+                thumbnailsScrollX = x.scroll;
+            }
+        });
+
+        function scrollToVisible(container, cur) {
+            const containerWidth = container.width(); // 容器宽度
+            const containerOffsetLeft = container.offset().left; // 容器左侧相对于页面的偏移
+            const elementOffsetLeft = cur.offset().left; // 元素左侧相对于页面的偏移
+            const relativeOffsetLeft = elementOffsetLeft - containerOffsetLeft; // 元素相对于容器的偏移
+            const elementWidth = cur.outerWidth(true); // 元素的宽度（包括 margin）
+            // 元素是否在可视区域
+            if (relativeOffsetLeft < 0) {
+                // 元素在左侧不可见区域
+                container.scrollLeft(thumbnailsScrollX + relativeOffsetLeft);
+            } else if (relativeOffsetLeft + elementWidth > containerWidth) {
+                // 元素在右侧不可见区域
+                container.scrollLeft(thumbnailsScrollX + (relativeOffsetLeft + elementWidth - containerWidth));
+            }
+        }
+
+        // 检查 .main 容器是否溢出
+        function checkOverflow() {
+            var $main = $('.thumbnails');
+            var mainWidth = $main.width(); // 容器宽度
+            var totalContentWidth = 0;
+            $('.thumbnail').each(function () {
+                totalContentWidth += $(this).width() + 20; // 20是margin外边距
+            });
+            var isOverflowing = totalContentWidth > mainWidth;
+            // 如果没有溢出，隐藏 .scroll-element
+            if (!isOverflowing) {
+                $('.scroll-element').css('display', 'none');
+            } else {
+                // 如果溢出，显示 .scroll-element
+                $('.scroll-element').css('display', '');
+            }
+        }
+
+        // 初始化时检查溢出
+        checkOverflow();
+        // 如果有必要，可以在窗口大小变化时再次检查
+        $(window).resize(checkOverflow);
+    })
+
+
+
+
+</script>
